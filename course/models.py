@@ -23,6 +23,7 @@ class ProgramManager(models.Manager):
 class Program(models.Model):
     title = models.CharField(max_length=150, unique=True)
     summary = models.TextField(blank=True)
+    # short_form = models.CharField(max_length=10, unique=True)  # Add this line for short form
 
     objects = ProgramManager()
 
@@ -62,7 +63,7 @@ class Course(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     title = models.CharField(max_length=200)
     code = models.CharField(max_length=200, unique=True)
-    credit = models.IntegerField(default=0)
+    credit = models.PositiveIntegerField(default=0)
     summary = models.TextField(max_length=200, blank=True)
     program = models.ForeignKey(Program, on_delete=models.CASCADE)
     level = models.CharField(max_length=25, choices=settings.LEVEL_CHOICES)

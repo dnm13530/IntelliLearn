@@ -9,6 +9,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import CreateView
 from django_filters.views import FilterView
 from xhtml2pdf import pisa
+from datetime import datetime
 
 from accounts.decorators import admin_required
 from accounts.filters import LecturerFilter, StudentFilter
@@ -301,6 +302,8 @@ def student_add_view(request):
         form = StudentAddForm(request.POST)
         if form.is_valid():
             student = form.save()
+            # student.student_id = generate_student_id(student.course, student.program)  # Pass the course and program to generate the ID
+            # student.save(commit =False)  # Now save the instance with the new ID
             full_name = student.get_full_name
             email = student.email
             messages.success(
@@ -411,3 +414,17 @@ class ParentAdd(CreateView):
     def form_valid(self, form):
         messages.success(self.request, "Parent added successfully.")
         return super().form_valid(form)
+
+
+# def generate_student_id(course, program):
+#     # Get the current year
+#     current_year = datetime.now().year % 100  # Get last two digits of the year
+#     institution_code = "RVCE"
+#     course_code = course.code  # Retrieve the course code from the course instance
+#     program_short_form = program.short_form  # Get the short form from the program
+
+#     # Generate a unique number based on existing students
+#     existing_students_count = Student.objects.count() + 1  # +1 for the new student
+#     unique_number = str(existing_students_count).zfill(3)  # Zero-pad to 3 digits
+
+#     return f"{institution_code}{current_year}{program_short_form}{course_code}{unique_number}"

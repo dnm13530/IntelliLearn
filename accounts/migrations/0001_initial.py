@@ -70,8 +70,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Student',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.CharField(max_length=11, primary_key=True)),
                 ('level', models.CharField(choices=[('Bachelor', 'Bachelor Degree'), ('Master', 'Master Degree')], max_length=25, null=True)),
+                ('department', models.CharField(max_length=50, null=True)),  # Added department field
             ],
             options={
                 'ordering': ('-student__date_joined',),
